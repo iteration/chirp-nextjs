@@ -41,7 +41,10 @@ const merged = server.merge(client);
 /* eslint-disable-next-line */
 let env = /** @type {MergedOutput} */ process.env;
 
-if (!!process.env.SKIP_ENV_VALIDATION === false) {
+if (
+  !!process.env.SKIP_ENV_VALIDATION === false &&
+  process.env.NODE_ENV !== 'test'
+) {
   const isServer = typeof window === 'undefined';
 
   const parsed = /** @type {MergedSafeParseReturn} */ isServer

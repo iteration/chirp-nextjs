@@ -3,15 +3,11 @@ import { useRouter } from 'next/router';
 import { Meta } from '@/layouts/Meta';
 import { Main } from '@/templates/Main';
 
-import { trpc } from '../utils/trpc';
+import { api } from '../utils/api';
 
 const Index = () => {
   const router = useRouter();
-  const hello = trpc.example.hello.useQuery({ text: 'from tRPC' });
-
-  if (!hello.data) {
-    return <div>Loading...</div>;
-  }
+  const hello = api.example.hello.useQuery({ text: 'from tRPC' });
 
   return (
     <Main
@@ -22,9 +18,6 @@ const Index = () => {
         />
       }
     >
-      <div>
-        <p>{hello.data.greeting}</p>
-      </div>
       <a href="https://github.com/ixartz/Next-js-Boilerplate">
         <img
           src={`${router.basePath}/assets/images/nextjs-starter-banner.png`}
@@ -188,6 +181,9 @@ const Index = () => {
           Premium NextJS Templates
         </a>{' '}
         on our website to support this project.
+      </p>
+      <p className="text-2xl text-white">
+        {hello.data ? hello.data.greeting : 'Loading tRPC query...'}
       </p>
     </Main>
   );
